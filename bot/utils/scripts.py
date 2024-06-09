@@ -1,11 +1,15 @@
-import hashlib
+import json
 import random
 import string
 import base64
-import urllib.parse
-import jwt
-from jwt import InvalidTokenError
-from time import time
+import hashlib
+
+
+def generate_random_visitor_id():
+    random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=32))
+    visitor_id = hashlib.md5(random_string.encode()).hexdigest()
+
+    return visitor_id
 
 
 def escape_html(text: str) -> str:
@@ -16,21 +20,3 @@ def decode_cipher(cipher: str) -> str:
     encoded = cipher[:3] + cipher[4:]
     return base64.b64decode(encoded).decode('utf-8')
 
-def encode_url(url: str) -> str:
-    start_index = url.find('&user=') + len('&user=')
-    end_index = url.find('&auth_date=')
-    part_to_encode = url[start_index:end_index]
-    encoded_part = urllib.parse.quote(part_to_encode, safe='')
-    encoded_url = url[:start_index] + encoded_part + url[end_index:]
-
-    return encoded_url
-
-def is_jwt_valid(token: str) -> bool:
-    try:
-        decode = jwt.decode(token, options={"verify_signature": False})
-        if int(decode['exp']) < int(time()):
-            return False
-        else:
-            return True
-    except InvalidTokenError:
-        return False

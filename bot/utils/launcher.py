@@ -4,6 +4,7 @@ import asyncio
 import argparse
 from itertools import cycle
 
+
 from pyrogram import Client
 from better_proxy import Proxy
 
@@ -15,7 +16,7 @@ from bot.core.registrator import register_sessions
 
 start_text = """
 
-W-Coin Bot
+Gleam Bot
 
 Select an action:
 
