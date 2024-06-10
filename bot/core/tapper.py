@@ -114,7 +114,7 @@ class Tapper:
         try:
             response = await http_client.post(
                 url='https://api.gleam.bot/start-farming',
-                json={"startedAt":time(),"initData": tg_web_data, "project": "Aqua Protocol"}
+                json={"startedAt":int(time())*1000,"initData": tg_web_data, "project": "Aqua Protocol"}
             )
             response_text = await response.text()
             response.raise_for_status()
